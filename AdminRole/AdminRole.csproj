@@ -268,6 +268,7 @@
     <None Include="Views\Home\charts.cshtml" />
     <None Include="Views\Home\forms.cshtml" />
     <None Include="Views\Home\tables.cshtml" />
+    <None Include="Views\Home\index-rtl.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

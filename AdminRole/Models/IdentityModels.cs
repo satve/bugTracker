@@ -1,5 +1,5 @@
-﻿using System.Data.Entity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -13,7 +13,7 @@ namespace AdminRole.Models
     {
           public ApplicationUser()
         {
-            this.Bug = new HashSet<Bug>();
+            Bug = new HashSet<Bug>();
         }
 
         public ICollection<Bug> Bug { get; set; }

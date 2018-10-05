@@ -46,7 +46,7 @@ namespace AdminRole.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id")] Bug bug)
+        public ActionResult Create([Bind(Include = "Id,Name")] Bug bug)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace AdminRole.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id")] Bug bug)
+        public ActionResult Edit([Bind(Include = "Id,Name")] Bug bug)
         {
             if (ModelState.IsValid)
             {
