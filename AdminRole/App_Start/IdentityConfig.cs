@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using AdminRole.Models;
+using System.Net.Mail;
+using System.Web.Configuration;
 
 namespace AdminRole
 {
@@ -19,7 +21,15 @@ namespace AdminRole
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var personalEmailService = new PersonalEmailService();
+            var mailMessage = new MailMessage(
+               WebConfigurationManager.AppSettings["emailto"],
+               message.Destination
+               );
+            mailMessage.Body = message.Body;
+            mailMessage.Subject = message.Subject;
+            mailMessage.IsBodyHtml = true;
+            return personalEmailService.SendAsync(mailMessage);
         }
     }
 

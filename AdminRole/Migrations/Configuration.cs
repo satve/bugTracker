@@ -24,8 +24,7 @@ namespace AdminRole.Migrations
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 roleManager.Create(new IdentityRole { Name = "Admin" });
-            }
-
+            }          
             if (!context.Roles.Any(r => r.Name == "Project Manager"))
             {
                 roleManager.Create(new IdentityRole { Name = "Project Manager" });
@@ -39,7 +38,7 @@ namespace AdminRole.Migrations
                 roleManager.Create(new IdentityRole { Name = "Submitter" });
             }
 
-            ApplicationUser adminUser = null;
+            ApplicationUser adminUser;
 
             if (!context.Users.Any(p => p.UserName == "admin@mybugapp.com"))
             {

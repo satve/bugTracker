@@ -149,37 +149,44 @@
                     <li>
                         <a href="@Url.Action("tables","Home")"><i class="fa fa-fw fa-table"></i> Tables</a>
                     </li>
+                    <li>
+                        <a href="@Url.Action("tables","Home")"><i class="fa fa-fw fa-table"></i> Tables</a>
+                    </li>
                     <li class="active">
-                        <a href="@Url.Action("forms","Home")"><i class="fa fa-fw fa-edit"></i> Forms</a>
+                        <a href="@Url.Action("blackPage","Home")"><i class="fa fa-fw fa-edit"></i> BlackPage</a>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Roles <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse">
+                         
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> projects <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="#">project</a>
                             </li>
                             <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                        </ul>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo1" class="collapse">
-                            <li>
-                                <a href="#">Dropdown Item</a>
-                            </li>
-                            <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="#">Project2</a>
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="@Url.Action("Index", "Bugs", "Bugs")"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li>
-                    <li>
-                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
-                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index","ApplicationUsers")"><i class="fa fa-fw fa-file"></i> ChangeRoles</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "Bugs", "Bugs")"><i class="fa fa-fw fa-file"></i> Exercises</a>
+                        </li>
+                    }
                 </ul>
-            </div>
+</div>
             <!-- /.navbar-collapse -->
         </nav>
         <div id="page-wrapper">

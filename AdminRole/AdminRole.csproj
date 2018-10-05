@@ -195,19 +195,25 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApplicationUsersController.cs" />
     <Compile Include="Controllers\BugsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="helper\UserRoleHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Bug.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PersonalEmailService.cs" />
+    <Compile Include="Models\ProjectAssignViewModel.cs" />
+    <Compile Include="Models\UserRoleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <None Include="Views\ApplicationUsers\ChangeRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-rtl.css" />
@@ -264,6 +270,11 @@
     <Content Include="Views\Bugs\Details.cshtml" />
     <Content Include="Views\Bugs\Edit.cshtml" />
     <Content Include="Views\Bugs\Index.cshtml" />
+    <Content Include="Views\ApplicationUsers\Create.cshtml" />
+    <Content Include="Views\ApplicationUsers\Delete.cshtml" />
+    <Content Include="Views\ApplicationUsers\Details.cshtml" />
+    <Content Include="Views\ApplicationUsers\Edit.cshtml" />
+    <Content Include="Views\ApplicationUsers\Index.cshtml" />
     <None Include="Views\Home\blankPage.cshtml" />
     <None Include="Views\Home\charts.cshtml" />
     <None Include="Views\Home\forms.cshtml" />
