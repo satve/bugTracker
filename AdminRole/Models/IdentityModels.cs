@@ -42,6 +42,13 @@ namespace AdminRole.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<AdminRole.Models.Bug> Bugs { get; set; }
+        public DbSet<Models.Bug> Bugs { get; set; }
+        public DbSet<Models.Ticket> Ticket { get; set; }
+        public DbSet<Models.TicketStatus> TicketStatus { get; set; }
+        public DbSet<Models.TicketType> TicketType { get; set; }
+        public DbSet<Models.TicketPriority> TicketPriority { get; set; }
+        public DbSet<Models.TicketComments> TicketComments { get; set; }
+        public DbSet<Models.TicketAttachments> TicketAttachments { get; set; }
+
     }
 }

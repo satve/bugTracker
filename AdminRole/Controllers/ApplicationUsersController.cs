@@ -10,9 +10,11 @@ using AdminRole.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using AdminRole.helper;
 
 namespace AdminRole.Controllers
 {
+    [Authorize]
     public class ApplicationUsersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -27,15 +29,11 @@ namespace AdminRole.Controllers
         public ActionResult ChangeRole(string id)
         {
             var model = new UserRoleViewModel();
-
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(db));
-
-            var user = userManager.FindById(id);
+            var userRoleHelper = new UserRoleHelper();
             model.Id = id;
-            model.Name = User.Identity.Name;
-            var roles = roleManager.Roles.ToList();
-            var userRoles = userManager.GetRoles(id);
+            model.Name = db.Users.FirstOrDefault(p => p.Id == id).Name;
+            var roles = userRoleHelper.GetAllRoles();
+            var userRoles = userRoleHelper.GetUserRoles(id);
             model.Roles = new MultiSelectList(roles, "Name", "Name", userRoles);
 
             return View(model);
@@ -56,8 +54,6 @@ namespace AdminRole.Controllers
             {
                 userManager.AddToRole(user.Id, role);
             }
-            var signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            signInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
             return RedirectToAction("Index");
         }
 
