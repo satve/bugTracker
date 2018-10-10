@@ -57,16 +57,16 @@
                     </li>
 
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> projects <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse"></ul>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-arrows-v"></i> projects <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo1" class="collapse">
+                            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("Index", "Bugs", "Bugs")"><i class="fa fa-fw fa-file"></i> Exercises</a>
+                                </li>
+                            }
+                        </ul>
                     </li>
-                   
-                    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                    {
-                        <li>
-                            <a href="@Url.Action("Index", "Bugs", "Bugs")"><i class="fa fa-fw fa-file"></i> Exercises</a>
-                        </li>
-                    }
                 </ul>
 </div>
             <!-- /.navbar-collapse -->

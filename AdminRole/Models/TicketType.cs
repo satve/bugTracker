@@ -9,6 +9,6 @@ namespace AdminRole.Models
     {
         public int Id { get; set; } 
         public string Name { get; set; }
-        public ICollection<Ticket> Ticket { get; set; }
+        public virtual ICollection<Ticket> Ticket { get; set; }
     }
 }
