@@ -11,6 +11,30 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Assignee.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Assignee.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bug.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bug.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Creator.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Creator.FirstName)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.TicketPriority.Name)
         </dt>
 
@@ -64,30 +88,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Updated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatorId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatorId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AssigneeId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AssigneeId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BugId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BugId)
         </dd>
 
     </dl>

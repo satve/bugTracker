@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using AdminRole.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections;
 
 namespace AdminRole.Models
 {
@@ -18,8 +20,15 @@ namespace AdminRole.Models
         public ApplicationUser()
         {
             Bugs = new HashSet<Bug>();
-        }
+            CreatedTickets = new HashSet<Ticket>();
+            AssignedTickets = new HashSet<Ticket>();
+        
+    }
         public virtual ICollection<Bug> Bugs { get; set; }
+        [InverseProperty("Creator")]
+        public virtual ICollection<Ticket> CreatedTickets { get; set; }
+        [InverseProperty("Assignee")]
+        public virtual ICollection<Ticket> AssignedTickets { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -49,6 +58,6 @@ namespace AdminRole.Models
         public DbSet<Models.TicketPriority> TicketPriority { get; set; }
         public DbSet<Models.TicketComments> TicketComments { get; set; }
         public DbSet<Models.TicketAttachments> TicketAttachments { get; set; }
-
+        public IEnumerable TicketTypes { get; internal set; }
     }
 }

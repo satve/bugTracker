@@ -23,20 +23,13 @@ namespace AdminRole.Models
         public int TicketStatusId { get; set; }
         public virtual TicketStatus TicketStatus { get; set; }
 
-        public int CreatorId { get; set; }
+        public string CreatorId { get; set; }
         public virtual ApplicationUser Creator { get; set; }
 
-        public int AssigneeId { get; set; }
+        public string AssigneeId { get; set; }
         public virtual ApplicationUser Assignee { get; set; }
 
-        public string BugId { get; set; }
+        public int BugId { get; set; }
         public virtual Bug Bug { get; set; }
-
-        public ICollection<ApplicationUser> Users { get; set; }
-
-        public Ticket()
-        {
-            Users = new HashSet<ApplicationUser>();
-        }
     }
 }

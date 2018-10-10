@@ -12,6 +12,15 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Assignee.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bug.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Creator.FirstName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.TicketPriority.Name)
         </th>
         <th>
@@ -32,20 +41,20 @@
         <th>
             @Html.DisplayNameFor(model => model.Updated)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatorId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AssigneeId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BugId)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Assignee.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bug.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Creator.FirstName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.TicketPriority.Name)
         </td>
@@ -66,15 +75,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Updated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatorId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssigneeId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BugId)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

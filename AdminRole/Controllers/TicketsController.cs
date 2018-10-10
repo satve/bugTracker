@@ -17,7 +17,7 @@ namespace AdminRole.Controllers
         // GET: Tickets
         public ActionResult Index()
         {
-            var ticket = db.Ticket.Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
+            var ticket = db.Ticket.Include(t => t.Assignee).Include(t => t.Bug).Include(t => t.Creator).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
             return View(ticket.ToList());
         }
 
@@ -39,9 +39,12 @@ namespace AdminRole.Controllers
         // GET: Tickets/Create
         public ActionResult Create()
         {
+            ViewBag.AssigneeId = new SelectList(db.Users, "Id", "FirstName");
+            ViewBag.BugId = new SelectList(db.Bugs, "Id", "Name");
+            ViewBag.CreatorId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "Id", "Name");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name");
-            ViewBag.TicketTypeId = new SelectList(db.TicketType, "Id", "Name");
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
             return View();
         }
 
@@ -59,9 +62,12 @@ namespace AdminRole.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.AssigneeId = new SelectList(db.Users, "Id", "FirstName", ticket.AssigneeId);
+            ViewBag.BugId = new SelectList(db.Bugs, "Id", "Name", ticket.BugId);
+            ViewBag.CreatorId = new SelectList(db.Users, "Id", "FirstName", ticket.CreatorId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketType, "Id", "Name", ticket.TicketTypeId);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
         }
 
@@ -77,9 +83,12 @@ namespace AdminRole.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.AssigneeId = new SelectList(db.Users, "Id", "FirstName", ticket.AssigneeId);
+            ViewBag.BugId = new SelectList(db.Bugs, "Id", "Name", ticket.BugId);
+            ViewBag.CreatorId = new SelectList(db.Users, "Id", "FirstName", ticket.CreatorId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketType, "Id", "Name", ticket.TicketTypeId);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
         }
 
@@ -96,9 +105,12 @@ namespace AdminRole.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.AssigneeId = new SelectList(db.Users, "Id", "FirstName", ticket.AssigneeId);
+            ViewBag.BugId = new SelectList(db.Bugs, "Id", "Name", ticket.BugId);
+            ViewBag.CreatorId = new SelectList(db.Users, "Id", "FirstName", ticket.CreatorId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketType, "Id", "Name", ticket.TicketTypeId);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
         }
 
