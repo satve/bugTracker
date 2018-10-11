@@ -15,7 +15,6 @@ namespace AdminRole.Models
         public Bug() {
             Users = new HashSet<ApplicationUser>();
             Ticket = new HashSet<Ticket>();
-
         }
-     }
+    }
 }

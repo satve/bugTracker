@@ -25,12 +25,10 @@ namespace AdminRole
             var mailMessage = new MailMessage(
                WebConfigurationManager.AppSettings["emailto"],
                message.Destination
-               )
-            {
-                Body = message.Body,
-                Subject = message.Subject,
-                IsBodyHtml = true
-            };
+               );
+            mailMessage.Body = message.Body;
+            mailMessage.Subject = message.Subject;
+            mailMessage.IsBodyHtml = true;
             return personalEmailService.SendAsync(mailMessage);
         }
     }

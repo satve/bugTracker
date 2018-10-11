@@ -1,12 +1,17 @@
 ﻿@model AdminRole.Models.UserRoleViewModel
+
  @{
     ViewBag.Title = "ChangeRole";
 }
+
 <h2>ChangeRole</h2>
+
 <p>
     User: @Model.Name
 </p>
+
 @using (Html.BeginForm())
+
 {
     @Html.HiddenFor(p => p.Id)
     @Html.ListBoxFor(p => p.SelectedRoles, Model.Roles)

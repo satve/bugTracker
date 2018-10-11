@@ -22,8 +22,7 @@ namespace AdminRole.Models
             Bugs = new HashSet<Bug>();
             CreatedTickets = new HashSet<Ticket>();
             AssignedTickets = new HashSet<Ticket>();
-        
-    }
+        }
         public virtual ICollection<Bug> Bugs { get; set; }
         [InverseProperty("Creator")]
         public virtual ICollection<Ticket> CreatedTickets { get; set; }
@@ -58,6 +57,5 @@ namespace AdminRole.Models
         public DbSet<Models.TicketPriority> TicketPriority { get; set; }
         public DbSet<Models.TicketComments> TicketComments { get; set; }
         public DbSet<Models.TicketAttachments> TicketAttachments { get; set; }
-        public IEnumerable TicketTypes { get; internal set; }
     }
 }

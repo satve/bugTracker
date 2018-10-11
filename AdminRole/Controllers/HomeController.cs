@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdminRole.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,11 @@ namespace AdminRole.Controllers
     {
         public ActionResult Index()
         {
+            var user = new ApplicationUser();
+            var db = new ApplicationDbContext();
+
+            user.CreatedTickets.ToList();
+            user.AssignedTickets.ToList();
 
             return View();
         }

@@ -62,6 +62,22 @@ namespace AdminRole.Migrations
             {
                 userManager.AddToRole(adminUser.Id, "Admin");
             }
+            context.TicketType.AddOrUpdate(x => x.Id,
+             new Models.TicketType() { Id = 1, Name = "Error Fixes" },
+             new Models.TicketType() { Id = 2, Name = "Software Update" },
+             new Models.TicketType() { Id = 3, Name = "Add Helpers" },
+             new Models.TicketType() { Id = 4, Name = "Database Bugs" });
+            context.TicketPriority.AddOrUpdate(x => x.Id,
+               new Models.TicketPriority() { Id = 1, Name = "High" },
+               new Models.TicketPriority() { Id = 2, Name = "Medium" },
+               new Models.TicketPriority() { Id = 3, Name = "Low" },
+               new Models.TicketPriority() { Id = 4, Name = "Urgent" });
+            context.TicketStatus.AddOrUpdate(x => x.Id,
+               new Models.TicketStatus() { Id = 1, Name = "Finished Now" },
+               new Models.TicketStatus() { Id = 2, Name = "Started Now" },
+               new Models.TicketStatus() { Id = 3, Name = "Not Started Yet" },
+               new Models.TicketStatus() { Id = 4, Name = "Currently In progress" });
+            context.SaveChanges();
         }
     }
 }

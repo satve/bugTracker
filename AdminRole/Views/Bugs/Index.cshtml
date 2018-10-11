@@ -7,7 +7,7 @@
 <div class="row">
     <div class="col-lg-12">
         <h2>Index</h2>
-        @if (User.IsInRole("admin"))
+        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
         {
             <p>
                 @Html.ActionLink("Create New", "Create")
@@ -29,7 +29,10 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        }
                         @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                         @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                         @Html.ActionLink("Assign Users", "AssignUsers", new { id = item.Id })

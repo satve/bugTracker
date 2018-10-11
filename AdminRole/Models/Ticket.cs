@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -31,5 +32,10 @@ namespace AdminRole.Models
 
         public int BugId { get; set; }
         public virtual Bug Bug { get; set; }
+
+        public Ticket()
+        {
+            this.Created = DateTime.Now;
+        }
     }
 }
