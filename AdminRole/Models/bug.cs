@@ -12,7 +12,8 @@ namespace AdminRole.Models
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<Ticket> Ticket { get; set; }
 
-        public Bug() {
+        public Bug()
+        {
             Users = new HashSet<ApplicationUser>();
             Ticket = new HashSet<Ticket>();
         }

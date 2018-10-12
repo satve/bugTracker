@@ -18,6 +18,7 @@
     <!-- Custom Fonts -->
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/plugins/morris.css" rel="stylesheet" />
+    <link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -31,10 +32,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" >Satveer Dhillon</a>
+                <a class="navbar-brand">Bug Tracker</a>
             </div>
             <!-- Top Menu Items -->
-          
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
@@ -68,7 +68,7 @@
                         </ul>
                     </li>
                 </ul>
-</div>
+            </div>
             <!-- /.navbar-collapse -->
         </nav>
         <div id="page-wrapper">
@@ -90,8 +90,9 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/plugins/morris/raphael.min.js"></script>
-    <script src="~/Scripts/plugins/morris/morris.min.js"></script>
-    <script src="~/Scripts/plugins/morris/morris-data.js"></script>
+    @*<script src="~/Scripts/plugins/morris/morris.min.js"></script>
+    <script src="~/Scripts/plugins/morris/morris-data.js"></script>*@
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
     @RenderSection("Scripts", false)
 
