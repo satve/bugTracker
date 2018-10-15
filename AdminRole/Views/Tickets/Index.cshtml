@@ -1,22 +1,26 @@
 ﻿@model IEnumerable<AdminRole.Models.Ticket>
 
-    @{
+@{
     ViewBag.Title = "Index";
-    }
+}
 
-    @section Scripts {
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#peopleTable').DataTable();
-            });
-        </script>
-    }
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#peopleTable').DataTable();
+        });
+    </script>
+}
 
-    <h2>Index</h2>
+<h2>Index</h2>
 
+   @if (User.IsInRole("Submitter"))
+   {
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
+   }
+
     <table id="peopleTable" class="table">
         <thead>
             <tr>
@@ -57,43 +61,49 @@
 
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Assignee.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Bug.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Creator.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketStatus.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TicketType.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Created)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Updated)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assignee.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bug.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creator.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Updated)
+                </td>
+
+                @if (User.IsInRole("Developer"))
+                {
+                <td>
+                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                </td>
+                 }
+                 <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
             }
         </tbody>
 
