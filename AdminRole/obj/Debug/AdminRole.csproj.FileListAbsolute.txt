@@ -117,4 +117,3 @@ C:\Users\SD12\source\repos\AdminRole\AdminRole\obj\Debug\AdminRole.csproj.CoreCo
 C:\Users\SD12\source\repos\AdminRole\AdminRole\obj\Debug\AdminRole.csproj.CopyComplete
 C:\Users\SD12\source\repos\AdminRole\AdminRole\obj\Debug\AdminRole.dll
 C:\Users\SD12\source\repos\AdminRole\AdminRole\obj\Debug\AdminRole.pdb
-C:\Users\SD12\source\repos\AdminRole\AdminRole\obj\Debug\AdminRole.csprojAssemblyReference.cache

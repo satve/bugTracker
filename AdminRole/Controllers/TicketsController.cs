@@ -24,12 +24,14 @@ namespace AdminRole.Controllers
         }
 
         // GET: Tickets
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
-            var ticket = db.Ticket.Include(t => t.Assignee).Include(t => t.Bug).Include(t => t.Creator).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
-            return View(ticket.ToList());
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                return View(db.Ticket.Include(t => t.TicketPriority).Include(t => t.Bug).Include(t => t.TicketStatus).Include(t => t.TicketType).Where(p => p.CreatorId == User.Identity.GetUserId()).ToList());
+            }
+            return View(db.Ticket.Include(t => t.TicketPriority).Include(t => t.Bug).Include(t => t.TicketStatus).Include(t => t.TicketType).ToList());
         }
-
         public ActionResult UserTickets()
         {
             string userID = User.Identity.GetUserId();
@@ -43,17 +45,41 @@ namespace AdminRole.Controllers
                 var tickets = db.Ticket.Where(t => t.AssigneeId == userID).Include(t => t.Creator).Include(t => t.Assignee).Include(t => t.Bug);
                 return View("Index", tickets.ToList());
             }
+            if (User.IsInRole("Project Manager"))
+            {
+                return View(db.Ticket.Include(t => t.TicketPriority).Include(t => t.Bug).Include(t => t.TicketStatus).Include(t => t.TicketType).Where(p => p.AssigneeId == userID).ToList());
+            }
             return View("Index");
         }
-        // Project Manger and Developer Tickets
-        [Authorize(Roles = "Project Manager,Developer")]
+
+
+        [Authorize(Roles = "Developer,Project Manager")]
         public ActionResult ProjectManagerOrDeveloperTickets()
         {
             string userId = User.Identity.GetUserId();
             var ProjectMangerOrDeveloperId = db.Users.Where(p => p.Id == userId).FirstOrDefault();
-            var ProjectId = ProjectMangerOrDeveloperId.Bugs.Select(p => p.Id).FirstOrDefault();
-            var tickets = db.Ticket.Where(p => p.Id == ProjectId).ToList();
-            return View("Index", tickets);
+            var projectsIds = ProjectMangerOrDeveloperId.Bugs.Select(p => p.Id).ToList();
+            var tickets1 = db.Ticket.Where(p => projectsIds.Contains(p.BugId)).ToList();
+            return View("Index", tickets1);
+        }
+
+        public ActionResult AssignDev(int ticketId)
+        {
+            var model = new AssignDevTicketModel();
+            var ticket = db.Ticket.FirstOrDefault(p => p.Id == ticketId);
+            var userRoleHelper = new UserRoleHelper();
+            var users = userRoleHelper.UsersInRole("Developer");
+            model.TicketId = ticketId;
+            model.DeveloperList = new SelectList(users, "Id", "Name");
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult AssignDev(AssignDevTicketModel model)
+        {
+            var ticket = db.Ticket.FirstOrDefault(p => p.Id == model.TicketId);
+            ticket.AssigneeId = model.SelectedDeveloperId;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
         // GET: Tickets/Details/5
         public ActionResult Details(int? id)

@@ -22,12 +22,20 @@ namespace AdminRole.Models
             Bugs = new HashSet<Bug>();
             CreatedTickets = new HashSet<Ticket>();
             AssignedTickets = new HashSet<Ticket>();
+            TicketAttachments = new HashSet<TicketAttachments>();
+            TicketComments = new HashSet<TicketComments>();
+            TicketHistories = new HashSet<TicketHistories>();
+            TicketNotifications = new HashSet<TicketNotifications>();
         }
         public virtual ICollection<Bug> Bugs { get; set; }
         [InverseProperty("Creator")]
         public virtual ICollection<Ticket> CreatedTickets { get; set; }
         [InverseProperty("Assignee")]
         public virtual ICollection<Ticket> AssignedTickets { get; set; }
+        public virtual ICollection<TicketAttachments> TicketAttachments { get; set; }
+        public virtual ICollection<TicketComments> TicketComments { get; set; }
+        public virtual ICollection<TicketHistories> TicketHistories { get; set; }
+        public virtual ICollection<TicketNotifications> TicketNotifications { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -57,5 +65,7 @@ namespace AdminRole.Models
         public DbSet<Models.TicketPriority> TicketPriority { get; set; }
         public DbSet<Models.TicketComments> TicketComments { get; set; }
         public DbSet<Models.TicketAttachments> TicketAttachments { get; set; }
+        public DbSet<Models.TicketNotifications> TicketNotifications { get; set; }
+        public DbSet<Models.TicketHistories> TicketHistories { get; set; }
     }
 }

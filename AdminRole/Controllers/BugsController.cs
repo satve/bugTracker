@@ -7,11 +7,12 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AdminRole.Models;
+using Microsoft.AspNet.Identity;
 
 namespace AdminRole.Controllers
 {
 
-    [Authorize(Roles = "Admin, Project Manager")]
+   
     public class BugsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -20,6 +21,14 @@ namespace AdminRole.Controllers
         public ActionResult Index()
         {
             return View(db.Bugs.ToList());
+        }
+
+        public ActionResult MyProjects()
+        {
+            string userId = User.Identity.GetUserId();
+            var UsersIds = db.Users.Where(p => p.Id == userId).FirstOrDefault();
+            var bugs = UsersIds.Bugs.ToList();
+            return View("Index", bugs);
         }
 
         // GET: Bugs/Details/5

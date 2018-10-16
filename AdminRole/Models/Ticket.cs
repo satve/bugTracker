@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace AdminRole.Models
 {
@@ -24,6 +20,14 @@ namespace AdminRole.Models
         public int TicketStatusId { get; set; }
         public virtual TicketStatus TicketStatus { get; set; }
 
+        public virtual ICollection<TicketAttachments> TicketAttachments { get; set; }
+
+        public virtual ICollection<TicketComments> TicketComments { get; set; }
+
+        public virtual ICollection<TicketHistories> TicketHistories { get; set; }
+
+        public virtual ICollection<TicketNotifications> TicketNotifications { get; set; }
+
         public string CreatorId { get; set; }
         public virtual ApplicationUser Creator { get; set; }
 
@@ -35,6 +39,11 @@ namespace AdminRole.Models
 
         public Ticket()
         {
+            TicketAttachments = new HashSet<TicketAttachments>();
+            TicketComments = new HashSet<TicketComments>();
+            TicketHistories = new HashSet<TicketHistories>();
+            TicketNotifications = new HashSet<TicketNotifications>();
+
             this.Created = DateTime.Now;
         }
     }
