@@ -161,11 +161,35 @@ namespace AdminRole.Controllers
         {
             if (ModelState.IsValid)
             {
+                var dateChanged = DateTimeOffset.Now;
+                var changes = new List<TicketHistories>();
+
                 // db.Entry(ticket).State = EntityState.Modified;
-                var DbTic = db.Ticket.FirstOrDefault(p => p.Id == ticket.Id);
-                DbTic.Name = ticket.Name;
-                DbTic.Description = ticket.Description;
-                DbTic.Updated = DateTime.Now;
+                var DbTicket = db.Ticket.FirstOrDefault(p => p.Id == ticket.Id);
+                DbTicket.Name = ticket.Name;
+                DbTicket.Description = ticket.Description;
+                DbTicket.TicketTypeId = ticket.TicketTypeId;
+                DbTicket.Updated = dateChanged;
+
+                var originalValues = db.Entry(DbTicket).OriginalValues;
+                var currentValues = db.Entry(DbTicket).CurrentValues;
+                foreach (var property in originalValues.PropertyNames)
+                {
+                    var originalValue = originalValues[property]?.ToString();
+                    var currentValue = currentValues[property]?.ToString();
+                    if (originalValue != currentValue)
+                    {
+                        var history = new TicketHistories();
+                        history.Changed = dateChanged;
+                        history.NewValue = GetValueFromKey(property, currentValue);
+                        history.OldValue = GetValueFromKey(property, originalValue);
+                        history.Property = property;
+                        history.TicketId = DbTicket.Id;
+                        history.UserId = User.Identity.GetUserId();
+                        changes.Add(history);
+                    }
+                }
+                db.TicketHistories.AddRange(changes);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -176,6 +200,30 @@ namespace AdminRole.Controllers
             ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketType, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
+        }
+
+        private string GetValueFromKey(string propertyName, string key)
+        {
+            if (propertyName == "TicketTypeId")
+            {
+                return db.TicketType.Find(Convert.ToInt32(key)).Name;
+            }
+
+            if (propertyName == "TicketStatusId")
+            {
+                return db.TicketStatus.Find(Convert.ToInt32(key)).Name;
+            }
+
+            if (propertyName == "TicketPriorityId")
+            {
+                return db.TicketPriority.Find(Convert.ToInt32(key)).Name;
+            }
+
+            if (propertyName == "TicketBugId")
+            {
+                return db.Bugs.Find(Convert.ToInt32(key)).Name;
+            }
+            return key;
         }
 
         // GET: Tickets/Delete/5

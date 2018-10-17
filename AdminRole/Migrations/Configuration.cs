@@ -38,7 +38,11 @@ namespace AdminRole.Migrations
                 roleManager.Create(new IdentityRole { Name = "Submitter" });
             }
 
-            ApplicationUser adminUser;
+            ApplicationUser adminUser = null;
+            ApplicationUser DeveloperUser = null;
+            ApplicationUser ProjectManagerUser = null;
+            ApplicationUser SubmitterUser = null;
+
 
             if (!context.Users.Any(p => p.UserName == "admin@mybugapp.com"))
             {
@@ -56,13 +60,76 @@ namespace AdminRole.Migrations
                     .FirstOrDefault();
             }
 
-            //Check if the adminUser is already on the Admin role
-            //If not, add it.
             if (!userManager.IsInRole(adminUser.Id, "Admin"))
             {
                 userManager.AddToRole(adminUser.Id, "Admin");
             }
-            context.TicketType.AddOrUpdate(x => x.Id,
+
+            if (!context.Users.Any(p => p.UserName == "manager@mybugapp.com"))
+            {
+                ProjectManagerUser = new ApplicationUser();
+                ProjectManagerUser.UserName = "manager@mybugapp.com";
+                ProjectManagerUser.Email = "manager@mybugapp.com";
+                ProjectManagerUser.FirstName = "Manager";
+                ProjectManagerUser.LastName = "Dhillon";
+                ProjectManagerUser.DisplayName = "Manager Dhillon";
+                userManager.Create(ProjectManagerUser, "Password-2");
+            }
+            else
+            {
+                ProjectManagerUser = context.Users.Where(p => p.UserName == "manager@mybugapp.com")
+                    .FirstOrDefault();
+            }
+
+            if (!userManager.IsInRole(ProjectManagerUser.Id, "Project Manager"))
+            {
+                userManager.AddToRole(ProjectManagerUser.Id, "Project Manager");
+            }
+
+            if (!context.Users.Any(p => p.UserName == "developer@mybugapp.com"))
+            {
+                DeveloperUser = new ApplicationUser();
+                DeveloperUser.UserName = "developer@mybugapp.com";
+                DeveloperUser.Email = "developer@mybugapp.com";
+                DeveloperUser.FirstName = "developer";
+                DeveloperUser.LastName = "Dhillon";
+                DeveloperUser.DisplayName = "Developer Dhillon";
+                userManager.Create(DeveloperUser, "Password-3");
+            }
+            else
+            {
+                DeveloperUser = context.Users.Where(p => p.UserName == "developer@mybugapp.com")
+                    .FirstOrDefault();
+            }
+
+            if (!userManager.IsInRole(DeveloperUser.Id, "Developer"))
+            {
+                userManager.AddToRole(DeveloperUser.Id, "Developer");
+            }
+
+            if (!context.Users.Any(p => p.UserName == "submitter@mybugapp.com"))
+            {
+                SubmitterUser = new ApplicationUser();
+                SubmitterUser.UserName = "submitter@mybugapp.com";
+                SubmitterUser.Email = "submitter@mybugapp.com";
+                SubmitterUser.FirstName = "submitter";
+                SubmitterUser.LastName = "Dhillon";
+                SubmitterUser.DisplayName = "Submitter Dhillon";
+                userManager.Create(SubmitterUser, "Password-4");
+            }
+
+            else
+            {
+                SubmitterUser = context.Users.Where(p => p.UserName == "submitter@mybugapp.com")
+                    .FirstOrDefault();
+            }
+
+            if (!userManager.IsInRole(SubmitterUser.Id, "Submitter"))
+            {
+                userManager.AddToRole(SubmitterUser.Id, "Submitter");
+            }
+
+           context.TicketType.AddOrUpdate(x => x.Id,
              new Models.TicketType() { Id = 1, Name = "Error Fixes" },
              new Models.TicketType() { Id = 2, Name = "Software Update" },
              new Models.TicketType() { Id = 3, Name = "Add Helpers" },

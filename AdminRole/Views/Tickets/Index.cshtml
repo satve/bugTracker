@@ -105,6 +105,10 @@
                     <td>
                         @Html.ActionLink("AssignDev", "AssignDev", new { tickedId = item.Id })
                     </td>
+                    
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                    </td>
                 }
             </tr>
             }
