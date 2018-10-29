@@ -15,5 +15,10 @@ namespace AdminRole.Models
 
         public int TicketId { get; set; }
         public virtual Ticket Ticket { get; set; }
+
+        public TicketComments()
+        {
+            Created = DateTime.Now;
+        }
     }
 }

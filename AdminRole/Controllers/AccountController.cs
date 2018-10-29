@@ -57,6 +57,41 @@ namespace AdminRole.Controllers
             }
         }
 
+        //Demo users
+
+        public ActionResult DemoUsersLogin(string name)
+        {
+            //finf admin users
+            ApplicationUser user = null;
+
+            //Logout user
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            if (name == "Admin")
+            {
+                user = UserManager.FindByName("admin@mybugapp.com");
+            }
+            if (name == "Project Manager")
+            {
+                user = UserManager.FindByName("manager@mybugapp.com");
+            }
+            if (name == "Developer")
+            {
+                user = UserManager.FindByName("developer@mybugapp.com");
+            }
+            if (name == "Submitter")
+            {
+                user = UserManager.FindByName("submitter@mybugapp.com");
+            }
+
+            //LOGIN USERS
+            if (user != null)
+            {
+                var SignInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                SignInManager.SignIn(user, false, false);
+            }
+            return RedirectToAction("Index", "");
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -163,12 +198,12 @@ namespace AdminRole.Controllers
                 {
                     UserManager.AddToRole(user.Id, "Submitter");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Index", "Home");
                 }

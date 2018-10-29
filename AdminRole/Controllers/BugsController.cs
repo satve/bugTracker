@@ -12,7 +12,6 @@ using Microsoft.AspNet.Identity;
 namespace AdminRole.Controllers
 {
 
-   
     public class BugsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

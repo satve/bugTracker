@@ -43,7 +43,6 @@ namespace AdminRole.Migrations
             ApplicationUser ProjectManagerUser = null;
             ApplicationUser SubmitterUser = null;
 
-
             if (!context.Users.Any(p => p.UserName == "admin@mybugapp.com"))
             {
                 adminUser = new ApplicationUser();
@@ -91,7 +90,7 @@ namespace AdminRole.Migrations
                 DeveloperUser = new ApplicationUser();
                 DeveloperUser.UserName = "developer@mybugapp.com";
                 DeveloperUser.Email = "developer@mybugapp.com";
-                DeveloperUser.FirstName = "developer";
+                DeveloperUser.FirstName = "Developer";
                 DeveloperUser.LastName = "Dhillon";
                 DeveloperUser.DisplayName = "Developer Dhillon";
                 userManager.Create(DeveloperUser, "Password-3");
@@ -112,12 +111,11 @@ namespace AdminRole.Migrations
                 SubmitterUser = new ApplicationUser();
                 SubmitterUser.UserName = "submitter@mybugapp.com";
                 SubmitterUser.Email = "submitter@mybugapp.com";
-                SubmitterUser.FirstName = "submitter";
+                SubmitterUser.FirstName = "Submitter";
                 SubmitterUser.LastName = "Dhillon";
                 SubmitterUser.DisplayName = "Submitter Dhillon";
                 userManager.Create(SubmitterUser, "Password-4");
             }
-
             else
             {
                 SubmitterUser = context.Users.Where(p => p.UserName == "submitter@mybugapp.com")

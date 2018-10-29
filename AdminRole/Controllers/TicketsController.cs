@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using AdminRole.helper;
 using AdminRole.Models;
@@ -42,16 +45,15 @@ namespace AdminRole.Controllers
             }
             if (User.IsInRole("Developer"))
             {
-                var tickets = db.Ticket.Where(t => t.AssigneeId == userID).Include(t => t.Creator).Include(t => t.Assignee).Include(t => t.Bug);
+                var tickets = db.Ticket.Where(t => t.AssigneeId == userID).Include(t => t.Creator).Include(t => t.TicketComments).Include(t => t.Assignee).Include(t => t.Bug);
                 return View("Index", tickets.ToList());
             }
             if (User.IsInRole("Project Manager"))
             {
-                return View(db.Ticket.Include(t => t.TicketPriority).Include(t => t.Bug).Include(t => t.TicketStatus).Include(t => t.TicketType).Where(p => p.AssigneeId == userID).ToList());
+                return View(db.Ticket.Include(t => t.TicketPriority).Include(t => t.TicketComments).Include(t => t.Bug).Include(t => t.TicketStatus).Include(t => t.TicketType).Where(p => p.AssigneeId == userID).ToList());
             }
             return View("Index");
         }
-
 
         [Authorize(Roles = "Developer,Project Manager")]
         public ActionResult ProjectManagerOrDeveloperTickets()
@@ -79,6 +81,15 @@ namespace AdminRole.Controllers
             var ticket = db.Ticket.FirstOrDefault(p => p.Id == model.TicketId);
             ticket.AssigneeId = model.SelectedDeveloperId;
             db.SaveChanges();
+            var user = db.Users.FirstOrDefault(p => p.Id == model.SelectedDeveloperId);
+            var personalEmailService = new PersonalEmailService();
+            var mailMessage = new MailMessage(
+            WebConfigurationManager.AppSettings["emailto"], user.Email
+                   );
+            mailMessage.Body = "New Assignee";
+            mailMessage.Subject = "Assignee to Developer";
+            mailMessage.IsBodyHtml = true;
+            personalEmailService.Send(mailMessage);
             return RedirectToAction("Index");
         }
         // GET: Tickets/Details/5
@@ -94,6 +105,41 @@ namespace AdminRole.Controllers
                 return HttpNotFound();
             }
             return View(ticket);
+        }
+
+        //GET: Tickets/TicketsComments
+        [HttpPost]
+        public ActionResult CreateComment(int id, string body)
+        {
+            var ticket = db.Ticket
+               .Where(p => p.Id == id)
+               .FirstOrDefault();
+            if (ticket == null)
+            {
+                return HttpNotFound();
+            }
+            if (string.IsNullOrWhiteSpace(body))
+            {
+                ViewBag.ErrorMessage = "Must require a comment..!!";
+                return View("Details", new { ticket.Id });
+            }
+            var comment = new TicketComments();
+            comment.UserId = User.Identity.GetUserId();
+            comment.TicketId = ticket.Id;
+            comment.Created = DateTime.Now;
+            comment.Comment = body;
+            db.TicketComments.Add(comment);
+            var user = db.Users.FirstOrDefault(p => p.Id == comment.UserId);
+            var personalEmailService = new PersonalEmailService();
+            var mailMessage = new MailMessage(
+            WebConfigurationManager.AppSettings["emailto"], user.Email
+                   );
+            mailMessage.Body = "New comment added";
+            mailMessage.Subject = "New Comment";
+            mailMessage.IsBodyHtml = true;
+            personalEmailService.Send(mailMessage);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id });
         }
 
         // GET: Tickets/Create
@@ -118,8 +164,12 @@ namespace AdminRole.Controllers
         {
             if (ModelState.IsValid)
             {
-                ticket.CreatorId = User.Identity.GetUserId();
+                if (ticket == null)
+                {
+                    return HttpNotFound();
+                }
                 ticket.TicketStatusId = 1;
+                ticket.CreatorId = User.Identity.GetUserId();
                 db.Ticket.Add(ticket);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -129,6 +179,45 @@ namespace AdminRole.Controllers
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketTypeId = new SelectList(db.TicketType, "Id", "Name", ticket.TicketTypeId);
             return View(ticket);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateAttachment(int ticketId, [Bind(Include = "Id,Description,TicketTypeId")] TicketAttachments ticketAttachments, HttpPostedFileBase image)
+        {
+            if (ModelState.IsValid)
+            {
+                if (image == null)
+                {
+                    return HttpNotFound();
+                }
+
+                if (!ImageUploadValidator.IsWebFriendlyImage(image))
+                {
+                    ViewBag.ErrorMessage = "upload image here";
+
+                }
+                var fileName = Path.GetFileName(image.FileName);
+                image.SaveAs(Path.Combine(Server.MapPath("~/ImgUploads/"), fileName));
+                ticketAttachments.FilePath = "/ImgUploads/" + fileName;
+                ticketAttachments.UserId = User.Identity.GetUserId();
+                ticketAttachments.Created = DateTime.Now;
+                ticketAttachments.UserId = User.Identity.GetUserId();
+                ticketAttachments.TicketId = ticketId;
+                db.TicketAttachments.Add(ticketAttachments);
+                var user = db.Users.FirstOrDefault(p => p.Id == ticketAttachments.UserId);
+                var personalEmailService = new PersonalEmailService();
+                var mailMessage = new MailMessage(
+                WebConfigurationManager.AppSettings["emailto"], user.Email
+                       );
+                mailMessage.Body = "New Attachment";
+                mailMessage.Subject = "Add Attachment";
+                mailMessage.IsBodyHtml = true;
+                personalEmailService.Send(mailMessage);
+                db.SaveChanges();
+                return RedirectToAction("Details", new {id = ticketId });
+            }
+            return View(ticketAttachments);
         }
 
         // GET: Tickets/Edit/5
@@ -191,6 +280,18 @@ namespace AdminRole.Controllers
                 }
                 db.TicketHistories.AddRange(changes);
                 db.SaveChanges();
+                if (DbTicket.AssigneeId != null)
+                {
+                    var user = db.Users.FirstOrDefault(p => p.Id == DbTicket.AssigneeId);
+                    var personalEmailService = new PersonalEmailService();
+                    var mailMessage = new MailMessage(
+                    WebConfigurationManager.AppSettings["emailto"], user.Email
+                           );
+                    mailMessage.Body = "Edit Ticket by Developer";
+                    mailMessage.Subject = "Edit Tickets";
+                    mailMessage.IsBodyHtml = true;
+                    personalEmailService.Send(mailMessage);
+                }
                 return RedirectToAction("Index");
             }
             ViewBag.AssigneeId = new SelectList(db.Users, "Id", "FirstName", ticket.AssigneeId);

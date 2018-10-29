@@ -83,6 +83,17 @@
                         }
                     </li>
 
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo3"><i class="fa fa-fw fa-arrows-v"></i> Demo Users Login<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo3" class="collapse">
+                            <li>
+                            <a href="@Url.Action("DemoUsersLogin", "Account", new { name = "Admin"})">Admin</a>
+                            <a href="@Url.Action("DemoUsersLogin", "Account", new { name = "Project Manager"})">Project manager</a>
+                            <a href="@Url.Action("DemoUsersLogin", "Account", new { name = "Developer"})">Developer</a>
+                            <a href="@Url.Action("DemoUsersLogin", "Account", new { name = "Submitter"})">Submitter</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

@@ -210,6 +210,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AssignDevTicketModel.cs" />
     <Compile Include="Models\Bug.cs" />
+    <Compile Include="Models\ImageUploadValidator.cs" />
     <Compile Include="Models\TicketHistories.cs" />
     <Compile Include="Models\TicketNotifications.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -225,7 +226,9 @@
     <Compile Include="Models\UserRoleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Content Include="private.config" />
+    <Content Include="private.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\ApplicationUsers\ChangeRole.cshtml" />
     <Content Include="Views\Tickets\Create.cshtml" />
     <Content Include="Views\Tickets\Delete.cshtml" />
@@ -348,6 +351,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ImgUploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

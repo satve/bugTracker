@@ -4,22 +4,23 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div style="background-image: url(https://www.chainimage.com/images/gray-paper-background-cardboard-texture-paper-backgrounds.jpg)">
+<h2><strong>Details</strong></h2>
 
 <div>
-    <h4>Ticket</h4>
+    <h4><strong>Tickets</strong></h4>
     <hr />
-    <dl class="dl-horizontal">
-        @*<dt>
-            @Html.DisplayNameFor(model => model.Assignee.FirstName)
-        </dt>*@
+    <dl style="width: 400px; background-color: yellow; border: 5px solid black;" class="dl-horizontal">
+        <dt>
+                @Html.DisplayNameFor(model => model.Assignee)
+            </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Assignee.FirstName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Bug.Name)
+            @Html.DisplayNameFor(model => model.Bug)
         </dt>
 
         <dd>
@@ -27,7 +28,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Creator.FirstName)
+            @Html.DisplayNameFor(model => model.Creator)
         </dt>
 
         <dd>
@@ -35,7 +36,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TicketPriority.Name)
+            @Html.DisplayNameFor(model => model.TicketPriority)
         </dt>
 
         <dd>
@@ -43,7 +44,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TicketStatus.Name)
+            @Html.DisplayNameFor(model => model.TicketStatus)
         </dt>
 
         <dd>
@@ -51,7 +52,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TicketType.Name)
+            @Html.DisplayNameFor(model => model.TicketType)
         </dt>
 
         <dd>
@@ -91,8 +92,67 @@
         </dd>
 
     </dl>
+    <div style=" background-color: lightseagreen; width: 400px; border: 5px solid black; margin-top: 10px;">
+     <div>
+                    <h3 style="margin-left: 120px ;"><strong>Comments</strong></h3>
+        @foreach (var comment in Model.TicketComments)
+        {
+            <hr />
+            @comment.User.Name
+            <p style="font-size:larger; text-align: left; margin-left: 70px ; width: 300px;">
+                @comment.Comment
+                <span style="font-size: 10px; text-align: right">
+                    - @comment.Created.ToString("dd/mm/yyyy hh:mm")
+                </span>
+            </p>
+        }
+    </div>
+    <div style=" background-color: lightseagreen; width: 300px;">
+
+        @using (Html.BeginForm("CreateComment", "Tickets", new { id = Model.Id }, FormMethod.Post))
+        {
+            <input type="hidden" name="slug" value="@Model.TicketComments"/>
+            <textarea name="Body"></textarea>
+            if (ViewBag.ErrorMessage != null)
+            {
+                <span>@ViewBag.ErrorMessage</span>
+            }
+            <input style="margin-top: 10px; margin-right: 800px;" type="submit" value="submit" />
+        }
+    </div>
+  </div>
+
+    <div style=" background-color: grey; width: 400px; border: 5px solid black; margin-top: 10px;">
+     <div>
+       <h3 style="margin-left: 120px ;"><strong>Attachments</strong></h3>
+        @foreach (var Attachment in Model.TicketAttachments)
+        {
+            <hr />
+            @Attachment.User.Name
+            <p style="text-align: left; margin-left: 50px ; height: 200px; width: 300px; border: 3px solid black;">
+                <img class="img-responsive" src="@Attachment.FilePath" alt="">
+                <span style="font-size: 10px; text-align: center">
+                    - @Attachment.Created.ToString("dd/mm/yyyy hh:mm")
+                </span>
+            </p>
+        }
+    </div>
+    <div>
+        @using (Html.BeginForm("CreateAttachment", "Tickets", new { ticketid = Model.Id }, FormMethod.Post, new { enctype = "Multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <input style="width: 300px;" name="image" type="file" class="form-control" id="fileUpload" />
+            if (ViewBag.ErrorMessage != null)
+            {
+                <span>@ViewBag.ErrorMessage</span>
+            }
+            <input style="margin-top: 10px; margin-right: 800px;" type="submit" value="submit" />
+        }
+    </div>
+  </div>
 </div>
-<p>
+<p style="margin-top: 20px; width: 150px; background-color: antiquewhite; border: 5px solid black;">
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+    </div>
