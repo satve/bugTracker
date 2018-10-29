@@ -94,7 +94,8 @@
     </dl>
     <div style=" background-color: lightseagreen; width: 400px; border: 5px solid black; margin-top: 10px;">
      <div>
-                    <h3 style="margin-left: 120px ;"><strong>Comments</strong></h3>
+
+         <h3 style="margin-left: 120px ;"><strong>Comments</strong></h3>
         @foreach (var comment in Model.TicketComments)
         {
             <hr />
@@ -107,6 +108,7 @@
             </p>
         }
     </div>
+
     <div style=" background-color: lightseagreen; width: 300px;">
 
         @using (Html.BeginForm("CreateComment", "Tickets", new { id = Model.Id }, FormMethod.Post))
@@ -137,6 +139,7 @@
             </p>
         }
     </div>
+
     <div>
         @using (Html.BeginForm("CreateAttachment", "Tickets", new { ticketid = Model.Id }, FormMethod.Post, new { enctype = "Multipart/form-data" }))
         {
@@ -151,8 +154,9 @@
     </div>
   </div>
 </div>
-<p style="margin-top: 20px; width: 150px; background-color: antiquewhite; border: 5px solid black;">
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
-    </div>
+
+    <p style="margin-top: 20px; width: 150px; background-color: antiquewhite; border: 5px solid black;">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</div>

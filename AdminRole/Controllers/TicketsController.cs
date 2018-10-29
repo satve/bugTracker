@@ -75,6 +75,7 @@ namespace AdminRole.Controllers
             model.DeveloperList = new SelectList(users, "Id", "Name");
             return View(model);
         }
+
         [HttpPost]
         public ActionResult AssignDev(AssignDevTicketModel model)
         {
